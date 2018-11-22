@@ -3,18 +3,14 @@ pipeline {
   stages {
     stage('Initialize') {
       steps{
-        echo "testing"
+        sh 'mvn clean package'
       }
+	  post{
+		success {
+			echo 'Build successfull'
+			archiveArtifacts artifacts : '**/target/*.war'
+		}
+	  }
     }
-   stage('Building') {
-      steps{
-        echo "Build"
-      }
-   }
-   stage('Deploying') {
-      steps{
-        echo "Deploy"
-      }
-   }
  }
 }

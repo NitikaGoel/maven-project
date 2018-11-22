@@ -1,0 +1,41 @@
+pipeline {
+  agent  any
+  tools {
+	maven 'localmaven'
+  }
+   parameters { 
+
+         string(name: 'tomcat_prod', defaultValue: '54.209.101.173', description: 'Production Server')
+    } 
+ 
+  triggers {
+         pollSCM('* * * * *') // Polling Source Control
+     }
+  stages {
+    stage('Initialize') {
+      steps{
+        bat 'mvn clean package'
+      }
+	  post{
+		success {
+			echo 'Build successfull'
+			archiveArtifacts artifacts : '**/target/*.war'
+		}
+	  }
+    }
+	stage('Deployments') {
+		parallel {
+		stage ('deploy to staging') {
+			steps {
+				build job : 'deploy-build'
+			}
+		}
+		stage ('deploy to production') {
+			steps {
+				bat "winscp -i C:/Program Files (x86)/Jenkins/Essentialskeypair.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps
+			}
+		}
+}
+}
+ }
+}

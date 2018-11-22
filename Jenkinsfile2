@@ -32,7 +32,7 @@ pipeline {
 		}
 		stage ('deploy to production') {
 			steps {
-				bat "winscp -i C:/Program Files (x86)/Jenkins/Essentialskeypair.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps"
+				bat "winscp -i C:/Users/ngoel9/Downloads/Essentialskeypair.pem **/target/*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps"	
 			}
 		}
 }

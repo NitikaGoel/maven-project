@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage('Initialize') {
       steps{
-        bat 'mvn clean package'
+        sh 'mvn clean package'
       }
 	  post{
 		success {
@@ -15,5 +15,10 @@ pipeline {
 		}
 	  }
     }
+	stage('Deploy to stage') {
+		steps {
+		 build job : 'deploy-build'
+		}
+	}
  }
 }

@@ -1,6 +1,6 @@
-Pipeline {
+pipeline {
   agent  any
-  Stages {
+  stages {
     stage('Initialize') {
       steps{
         echo "testing"

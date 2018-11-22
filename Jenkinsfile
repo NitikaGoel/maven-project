@@ -1,7 +1,7 @@
 pipeline {
   agent  any
   tools {
-	maven 'maven-plugin'
+	maven 'localmaven'
   }
   stages {
     stage('Initialize') {

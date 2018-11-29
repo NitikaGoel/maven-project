@@ -1,5 +1,4 @@
-pipeline {
-  agent any
+node{
     stage('build')
         parallel 'build' {
           node('master') {
@@ -10,4 +9,4 @@ pipeline {
                 bat 'mvn clean package'
             }
         }      
-}
+  }

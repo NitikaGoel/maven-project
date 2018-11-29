@@ -1,14 +1,16 @@
 pipeline{
- agent { label 'node_1' }
   stages{
     stage('build'){
-      steps{
-        bat 'mvn clean package'
-        bat "docker build . -t tomcatweb:${env.BUILD_ID}"
-      
+    parallel 'build'{
+      node('master') {
+           bat 'mvn clean package'
       }
-    
+    }, 'print message' {
+      node('Slave_1') {
+            bat 'mvn clean package'
+      }
     }
+   }
   }
 
 }
